@@ -5,16 +5,16 @@ function checkForAuthenticationCookie(cookieName) {
         const tokenCookieValue = req.cookies[cookieName];
         console.log(tokenCookieValue);
         if (!tokenCookieValue) {
-            return res.status(401).send({ message: "Unauthorized: No authentication cookie found." });
+            next();
         }
 
         try {
             const userPayload = validateToken(tokenCookieValue);
             req.user = userPayload;
-            next();
         } catch (error) {
             console.error(error);
         }
+        next();
     };
 }
 
