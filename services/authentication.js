@@ -14,8 +14,15 @@ function createTokenForUser(user) {
 }
 
 function validateToken(token) {
-    const payload = JWT.verify(token, secretKey);
-    return payload;
+    if (!token) {
+        throw new Error('Token is required');
+    }
+    try {
+        const payload = JWT.verify(token, secretKey);
+        return payload;
+    } catch (error) {
+        throw error;
+    }
 }
 
 module.exports = { createTokenForUser, validateToken };
