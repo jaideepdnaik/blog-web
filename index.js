@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const userRoute = require("./routes/user");
 const blogRoute = require("./routes/blog");
+const Blog = require("./models/blog");
 
 const { checkForAuthenticationCookie } = require('./middlewares/authentication');
 
@@ -21,9 +22,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(checkForAuthenticationCookie("token"));
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+    const allBlogs = await Blog.find({}); 
     res.render("home", {
-        user: req.user
+        user: req.user,
+        blogs: allBlogs
     });
 });
 
